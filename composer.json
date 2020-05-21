@@ -1,0 +1,21 @@
+{
+    "name": "micheh/phpcs-gitlab",
+    "description": "PHPCodeSniffer report for Gitlab",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Michel Hunziker",
+            "email": "info@michelhunziker.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Micheh\\PhpCodeSniffer\\": "src/"
+        }
+    }
+}
