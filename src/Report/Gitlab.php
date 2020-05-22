@@ -13,6 +13,7 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Reports\Report;
 
 use function md5;
+use function rtrim;
 use function str_replace;
 
 use const PHP_EOL;
@@ -45,11 +46,7 @@ class Gitlab implements Report
                         ],
                     ];
 
-                    if ($hasOutput) {
-                        echo ',';
-                    }
-
-                    echo json_encode($issue, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+                    echo json_encode($issue, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . ',';
                     $hasOutput = true;
                 }
             }
@@ -72,6 +69,6 @@ class Gitlab implements Report
         $interactive = false,
         $toScreen = true
     ): void {
-        echo '[' . $cachedData . ']' . PHP_EOL;
+        echo '[' . rtrim($cachedData, ',') . ']' . PHP_EOL;
     }
 }

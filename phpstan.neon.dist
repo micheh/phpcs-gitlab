@@ -6,6 +6,7 @@ parameters:
   level: 8
   paths:
     - src
+    - tests
   autoload_files:
     - vendor/squizlabs/php_codesniffer/autoload.php
   checkMissingIterableValueType: false
