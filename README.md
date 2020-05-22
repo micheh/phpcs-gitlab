@@ -1,6 +1,9 @@
 
 Gitlab Report for PHP_CodeSniffer
 ---------------------------------
+![Main workflow](https://github.com/micheh/phpcs-gitlab/workflows/Main%20workflow/badge.svg)
+[![codecov](https://codecov.io/gh/micheh/phpcs-gitlab/branch/master/graph/badge.svg)](https://codecov.io/gh/micheh/phpcs-gitlab)
+
 
 This library adds a custom report to [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) (phpcs) to generate a codequality artifact, which can be used by Gitlab CI/CD.
 The custom report will be generated in the Code Climate format and allows Gitlab CI/CD to display the violations in the Code Quality report.
