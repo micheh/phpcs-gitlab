@@ -17,7 +17,7 @@ use function str_replace;
 
 use const PHP_EOL;
 
-class GitlabReport implements Report
+class Gitlab implements Report
 {
     /**
      * @param File $phpcsFile
