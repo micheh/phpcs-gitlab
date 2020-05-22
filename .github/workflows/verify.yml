@@ -34,7 +34,7 @@ jobs:
         run: composer install
 
       - name: Run PHP Codesniffer
-        run: vendor/bin/phpcs --report=checkstyle -q | cs2pr
+        run: vendor/bin/phpcs --report=checkstyle -q | cs2pr --graceful-warnings
 
   phpstan:
     runs-on: ubuntu-latest
