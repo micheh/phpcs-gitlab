@@ -10,8 +10,13 @@
         }
     ],
     "minimum-stability": "stable",
+    "require": {
+        "ext-json": "*"
+    },
     "require-dev": {
-        "squizlabs/php_codesniffer": "^3.5"
+        "squizlabs/php_codesniffer": "^3.5",
+        "phpstan/phpstan": "^0.12.25",
+        "phpstan/phpstan-deprecation-rules": "^0.12.3"
     },
     "autoload": {
         "psr-4": {

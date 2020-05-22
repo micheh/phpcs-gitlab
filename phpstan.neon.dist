@@ -1,0 +1,11 @@
+
+includes:
+  - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+
+parameters:
+  level: 8
+  paths:
+    - src
+  autoload_files:
+    - vendor/squizlabs/php_codesniffer/autoload.php
+  checkMissingIterableValueType: false

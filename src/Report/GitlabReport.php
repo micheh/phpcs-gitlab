@@ -20,6 +20,7 @@ use const PHP_EOL;
 class GitlabReport implements Report
 {
     /**
+     * @param File $phpcsFile
      * @inheritDoc
      */
     public function generateFileReport($report, File $phpcsFile, $showSources = false, $width = 80): bool
