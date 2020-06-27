@@ -23,7 +23,7 @@ class Gitlab implements Report
     /**
      * @psalm-suppress ImplementedParamTypeMismatch PHP_CodeSniffer has a wrong docblock
      */
-    public function generateFileReport($report, File $phpcsFile, $showSources = false, $width = 80): bool
+    public function generateFileReport($report, File $phpcsFile, $showSources = false, $width = 80)
     {
         $hasOutput = false;
 
@@ -64,7 +64,7 @@ class Gitlab implements Report
         $width = 80,
         $interactive = false,
         $toScreen = true
-    ): void {
+    ) {
         echo '[' . rtrim($cachedData, ',') . ']' . PHP_EOL;
     }
 }
