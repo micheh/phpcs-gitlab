@@ -8,10 +8,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: shivammathur/setup-php@v1
+      - uses: shivammathur/setup-php@2.3.1
         with:
           php-version: 7.3
           coverage: pcov
+
+      - name: Setup problem matcher for PHPUnit
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - name: Install dependencies
         run: composer install
@@ -20,14 +23,14 @@ jobs:
         run: vendor/bin/phpunit --coverage-clover=coverage.xml
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v1.0.7
 
   phpcs:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
-      - uses: shivammathur/setup-php@v1
+      - uses: shivammathur/setup-php@2.3.1
         with:
           php-version: 7.3
           coverage: none
@@ -39,19 +42,18 @@ jobs:
       - name: Run PHP Codesniffer
         run: vendor/bin/phpcs --report=checkstyle -q | cs2pr --graceful-warnings
 
-  phpstan:
+  psalm:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
-      - uses: shivammathur/setup-php@v1
+      - uses: shivammathur/setup-php@2.3.1
         with:
           php-version: 7.3
           coverage: none
-          tools: cs2pr
 
       - name: Install dependencies
         run: composer install
         
-      - name: Run PHPStan
-        run: vendor/bin/phpstan analyse --error-format=checkstyle | cs2pr
+      - name: Run Psalm
+        run: vendor/bin/psalm --output-format=github

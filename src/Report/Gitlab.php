@@ -21,8 +21,7 @@ use const PHP_EOL;
 class Gitlab implements Report
 {
     /**
-     * @param File $phpcsFile
-     * @inheritDoc
+     * @psalm-suppress ImplementedParamTypeMismatch PHP_CodeSniffer has a wrong docblock
      */
     public function generateFileReport($report, File $phpcsFile, $showSources = false, $width = 80): bool
     {
@@ -55,9 +54,6 @@ class Gitlab implements Report
         return $hasOutput;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function generate(
         $cachedData,
         $totalFiles,
