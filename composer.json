@@ -9,6 +9,13 @@
             "email": "info@michelhunziker.com"
         }
     ],
+    "keywords": [
+        "phpcs",
+        "php_codesniffer",
+        "gitlab",
+        "code quality",
+        "report"
+    ],
     "minimum-stability": "stable",
     "require": {
         "ext-json": "*"
