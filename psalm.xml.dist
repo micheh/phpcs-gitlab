@@ -3,10 +3,10 @@
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
     autoloader="vendor/squizlabs/php_codesniffer/autoload.php"
-    errorLevel="2"
+    errorLevel="1"
     findUnusedPsalmSuppress="true"
     findUnusedVariablesAndParams="true"
-    resolveFromConfigFile="true"
+    reportMixedIssues="false"
 >
     <projectFiles>
         <directory name="src" />
