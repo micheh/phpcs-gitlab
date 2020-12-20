@@ -35,6 +35,7 @@ class Gitlab implements Report
                         'categories' => ['Style'],
                         'check_name' => $error['source'],
                         'fingerprint' => md5($report['filename'] . $error['message'] . $line . $column),
+                        'severity' => $error['type'] === 'ERROR' ? 'major' : 'minor',
                         'description' => str_replace(["\n", "\r", "\t"], ['\n', '\r', '\t'], $error['message']),
                         'location' => [
                             'path' => $report['filename'],

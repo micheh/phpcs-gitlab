@@ -4,6 +4,8 @@
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
     autoloader="vendor/squizlabs/php_codesniffer/autoload.php"
     errorLevel="2"
+    findUnusedPsalmSuppress="true"
+    findUnusedVariablesAndParams="true"
     resolveFromConfigFile="true"
 >
     <projectFiles>
