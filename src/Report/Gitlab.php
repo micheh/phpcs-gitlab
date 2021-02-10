@@ -21,6 +21,12 @@ use const PHP_EOL;
 class Gitlab implements Report
 {
     /**
+     * Gitlab predefined environment name
+     * @see https://docs.gitlab.com/13.8/ee/ci/variables/predefined_variables.html
+     */
+    const GITLAB_PROJECT_DIR_ENV = 'CI_PROJECT_DIR';
+
+    /**
      * @psalm-suppress ImplementedParamTypeMismatch PHP_CodeSniffer has a wrong docblock
      */
     public function generateFileReport($report, File $phpcsFile, $showSources = false, $width = 80)
@@ -30,15 +36,17 @@ class Gitlab implements Report
         foreach ($report['messages'] as $line => $lineErrors) {
             foreach ($lineErrors as $column => $colErrors) {
                 foreach ($colErrors as $error) {
+                    $filename = $this->removeBaseFromLocationPath($report['filename']);
+
                     $issue = [
                         'type' => 'issue',
                         'categories' => ['Style'],
                         'check_name' => $error['source'],
-                        'fingerprint' => md5($report['filename'] . $error['message'] . $line . $column),
+                        'fingerprint' => md5($filename . $error['message'] . $line . $column),
                         'severity' => $error['type'] === 'ERROR' ? 'major' : 'minor',
                         'description' => str_replace(["\n", "\r", "\t"], ['\n', '\r', '\t'], $error['message']),
                         'location' => [
-                            'path' => $report['filename'],
+                            'path' => $filename,
                             'lines' => [
                                 'begin' => $line,
                                 'end' => $line,
@@ -67,5 +75,20 @@ class Gitlab implements Report
         $toScreen = true
     ) {
         echo '[' . rtrim($cachedData, ',') . ']' . PHP_EOL;
+    }
+
+    /**
+     * Removes Gitlab build directory from location
+     *
+     * @param string $path
+     * @return string
+     */
+    private function removeBaseFromLocationPath(string $path) {
+        $dir = getenv(self::GITLAB_PROJECT_DIR_ENV);
+
+        return $dir
+            ? str_replace($dir, '', $path) // isn't right way, because we need remove first 'a' from '/a/a/'
+            : $path;
+
     }
 }

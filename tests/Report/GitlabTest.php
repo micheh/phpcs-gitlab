@@ -61,6 +61,8 @@ class GitlabTest extends TestCase
      */
     public function testGenerateFileReport(string $class): void
     {
+        putenv(Gitlab::GITLAB_PROJECT_DIR_ENV.'=/build');
+
         $fixture = new $class();
         self::assertInstanceOf(ReportFixture::class, $fixture);
 
