@@ -24,7 +24,7 @@ class Gitlab implements Report
      * Gitlab predefined environment name
      * @see https://docs.gitlab.com/13.8/ee/ci/variables/predefined_variables.html
      */
-    const GITLAB_PROJECT_DIR_ENV = 'CI_PROJECT_DIR';
+    public const GITLAB_PROJECT_DIR_ENV = 'CI_PROJECT_DIR';
 
     /**
      * @psalm-suppress ImplementedParamTypeMismatch PHP_CodeSniffer has a wrong docblock
@@ -83,12 +83,12 @@ class Gitlab implements Report
      * @param string $path
      * @return string
      */
-    private function removeBaseFromLocationPath(string $path) {
+    private function removeBaseFromLocationPath(string $path)
+    {
         $dir = getenv(self::GITLAB_PROJECT_DIR_ENV);
 
         return $dir
             ? str_replace($dir, '', $path) // isn't right way, because we need remove first 'a' from '/a/a/'
             : $path;
-
     }
 }
