@@ -49,7 +49,7 @@ jobs:
         if: matrix.php-versions == '7.4' && matrix.dependencies == 'highest'
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1.1.0
+        uses: codecov/codecov-action@v1.4.1
         if: matrix.php-versions == '7.4' && matrix.dependencies == 'highest'
 
   phpcs:
