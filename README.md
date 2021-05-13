@@ -31,6 +31,9 @@ The example above uses two reports, one to display in the build log (full) and o
 > **Note:** Gitlab currently does not support multiple codequality artifacts. 
 > You will not be able to display the violations of multiple tools (e.g. PHP Code Sniffer & PHPStan) in the Code Quality report.
 
+Inside the codequality artifact, Gitlab expects relative paths to the files with violations. 
+To generate relative paths with PHP Code Sniffer, set the `basepath` argument in your `phpcs.xml.dist` configuration file with `<arg name="basepath" value="."/>` or run phpcs with `--basepath=.` (adjust the base path as necessary).
+
 
 ## References
 
