@@ -20,13 +20,13 @@ Then adjust your `.gitlab-ci.yml` to run PHP_CodeSniffer with the custom reporte
 
 ```yaml
 phpcs:
-  script: vendor/bin/phpcs --report=emacs --report-\\Micheh\\PhpCodeSniffer\\Report\\Gitlab=phpcs-quality-report.json
+  script: vendor/bin/phpcs --report=full --report-\\Micheh\\PhpCodeSniffer\\Report\\Gitlab=phpcs-quality-report.json
   artifacts:
     reports:
       codequality: phpcs-quality-report.json
 ```
 
-The example above uses two reports, one to display in the build log (emacs) and one to generate the codequality artifact file in the Code Climate format.
+The example above uses two reports, one to display in the build log (full) and one to generate the codequality artifact file in the Code Climate format.
 
 > **Note:** Gitlab currently does not support multiple codequality artifacts. 
 > You will not be able to display the violations of multiple tools (e.g. PHP Code Sniffer & PHPStan) in the Code Quality report.
