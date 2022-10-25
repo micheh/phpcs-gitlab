@@ -36,6 +36,6 @@ class SingleViolation implements ReportFixture
 
     public function getExpectedOutput(): string
     {
-        return '{"type":"issue","categories":["Style"],"check_name":"PSR12.Files.FileHeader.SpacingInsideBlock","fingerprint":"21f4cd5b7d88d9eb67402be5d56caa8b","severity":"major","description":"Header blocks must not contain blank lines","location":{"path":"src/Report/Gitlab.php","lines":{"begin":18,"end":18}}},';
+        return '{"type":"issue","categories":["Style"],"check_name":"PSR12.Files.FileHeader.SpacingInsideBlock","fingerprint":"b032bdbf36024c6287172cef1f54a6fd","severity":"major","description":"Header blocks must not contain blank lines","location":{"path":"src/Report/Gitlab.php","lines":{"begin":18,"end":18}}},';
     }
 }
