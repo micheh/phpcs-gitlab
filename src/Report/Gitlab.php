@@ -11,6 +11,7 @@ namespace Micheh\PhpCodeSniffer\Report;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Reports\Report;
+use SplFileObject;
 
 use function md5;
 use function rtrim;
@@ -28,13 +29,18 @@ class Gitlab implements Report
         $hasOutput = false;
 
         foreach ($report['messages'] as $line => $lineErrors) {
+            $file = new SplFileObject($phpcsFile->getFilename());
             foreach ($lineErrors as $column => $colErrors) {
                 foreach ($colErrors as $error) {
                     $issue = [
                         'type' => 'issue',
                         'categories' => ['Style'],
                         'check_name' => $error['source'],
-                        'fingerprint' => md5($report['filename'] . $error['message'] . $line . $column),
+                        'fingerprint' => md5(
+                            $report['filename']
+                            . $error["source"]
+                            . $this->getRelevantSource($file, $line - 1)
+                        ),
                         'severity' => $error['type'] === 'ERROR' ? 'major' : 'minor',
                         'description' => str_replace(["\n", "\r", "\t"], ['\n', '\r', '\t'], $error['message']),
                         'location' => [
@@ -67,5 +73,19 @@ class Gitlab implements Report
         $toScreen = true
     ) {
         echo '[' . rtrim($cachedData, ',') . ']' . PHP_EOL;
+    }
+
+    private function getRelevantSource(SplFileObject $file, int $line): string
+    {
+        if (!$file->eof()) {
+            $file->seek($line);
+            $contents = $file->current();
+
+            if (false !== $contents) {
+                return preg_replace('/\s+/', '', $contents);
+            }
+        }
+
+        return '';
     }
 }
