@@ -67,8 +67,11 @@ class GitlabTest extends TestCase
     {
         $fixture = new $class();
         self::assertInstanceOf(ReportFixture::class, $fixture);
+        $fixtureReflection = new \ReflectionClass($class);
+        $phpcsFile = $this->createMock(File::class);
+        $phpcsFile->method('getFilename')->willReturn($fixtureReflection->getFileName());
 
         $this->expectOutputString($fixture->getExpectedOutput());
-        $this->report->generateFileReport($fixture->getReportData(), $this->createMock(File::class));
+        $this->report->generateFileReport($fixture->getReportData(), $phpcsFile);
     }
 }
