@@ -7,6 +7,12 @@
          colors="true"
          forceCoversAnnotation="true"
 >
+    <php>
+        <const name="PHP_CODESNIFFER_IN_TESTS" value="true"/>
+        <const name="PHP_CODESNIFFER_CBF" value="false"/>
+        <const name="PHP_CODESNIFFER_VERBOSITY" value="0"/>
+    </php>
+
     <testsuites>
         <testsuite name="Project Test Suite">
             <directory>tests</directory>

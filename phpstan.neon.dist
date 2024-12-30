@@ -4,5 +4,7 @@ parameters:
   paths:
     - src
     - tests
+  excludePaths:
+    - tests/_files/
   scanDirectories:
     - vendor/squizlabs/php_codesniffer

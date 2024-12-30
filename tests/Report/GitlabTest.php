@@ -10,11 +10,15 @@ declare(strict_types=1);
 namespace MichehTest\PhpCodeSniffer\Report;
 
 use Micheh\PhpCodeSniffer\Report\Gitlab;
-use MichehTest\PhpCodeSniffer\Fixtures\MixedViolations;
-use MichehTest\PhpCodeSniffer\Fixtures\ReportFixture;
-use MichehTest\PhpCodeSniffer\Fixtures\SingleViolation;
+use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Files\LocalFile;
+use PHP_CodeSniffer\Reporter;
+use PHP_CodeSniffer\Ruleset;
+use PHP_CodeSniffer\Runner;
 use PHPUnit\Framework\TestCase;
+
+use function file_get_contents;
 
 class GitlabTest extends TestCase
 {
@@ -23,6 +27,22 @@ class GitlabTest extends TestCase
      */
     private $report;
 
+    /**
+     * @var Config
+     */
+    private static $config;
+
+
+    public static function setUpBeforeClass(): void
+    {
+        self::$config = new Config();
+        self::$config->basepath = __DIR__ . '/../';
+        self::$config->standards = ['PSR12'];
+
+        $runner = new Runner();
+        $runner->config = self::$config;
+        $runner->init();
+    }
 
     protected function setUp(): void
     {
@@ -48,30 +68,49 @@ class GitlabTest extends TestCase
     }
 
     /**
-     * @return array<string, array<class-string<ReportFixture>>>
+     * @return array<string, array<string>>
      */
     public function violations(): array
     {
         return [
-            'single' => [SingleViolation::class],
-            'mixed' => [MixedViolations::class],
+            'single' => ['Single'],
+            'mixed' => ['Mixed'],
+            'multiple' => ['Multiple'],
         ];
     }
 
     /**
-     * @param class-string<ReportFixture> $class
      * @covers \Micheh\PhpCodeSniffer\Report\Gitlab::generateFileReport
      * @dataProvider violations
      */
-    public function testGenerateFileReport(string $class): void
+    public function testGenerateFileReport(string $fileName): void
     {
-        $fixture = new $class();
-        self::assertInstanceOf(ReportFixture::class, $fixture);
-        $fixtureReflection = new \ReflectionClass($class);
-        $phpcsFile = $this->createMock(File::class);
-        $phpcsFile->method('getFilename')->willReturn($fixtureReflection->getFileName());
+        $phpPath = __DIR__ . '/../_files/' . $fileName . '.php';
+        self::assertFileExists($phpPath);
 
-        $this->expectOutputString($fixture->getExpectedOutput());
-        $this->report->generateFileReport($fixture->getReportData(), $phpcsFile);
+        $outputPath = __DIR__ . '/../_files/' . $fileName . '.json';
+        self::assertFileExists($outputPath);
+
+        $file = $this->createFile($phpPath);
+
+        $this->expectOutputString((string) file_get_contents($outputPath));
+        $this->report->generateFileReport($this->getReportData($file), $file);
+    }
+
+    private function createFile(string $path): File
+    {
+        $file = new LocalFile($path, new Ruleset(self::$config), self::$config);
+        $file->process();
+
+        return $file;
+    }
+
+    /**
+     * @return array{filename: string, errors: int, warnings: int, fixable: int, messages: array<mixed>}
+     */
+    private function getReportData(File $file): array
+    {
+        $reporter = new Reporter(self::$config);
+        return $reporter->prepareFileReport($file); // @phpstan-ignore return.type
     }
 }

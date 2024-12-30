@@ -1,0 +1,1 @@
+{"type":"issue","categories":["Style"],"check_name":"Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine","fingerprint":"98816311d045b285f10765696fa38858-1","severity":"major","description":"Opening brace should be on a new line","location":{"path":"_files/Single.php","lines":{"begin":7,"end":7}}},

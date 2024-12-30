@@ -13,7 +13,9 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Reports\Report;
 use SplFileObject;
 
+use function is_string;
 use function md5;
+use function preg_replace;
 use function rtrim;
 use function str_replace;
 
@@ -27,20 +29,25 @@ class Gitlab implements Report
     public function generateFileReport($report, File $phpcsFile, $showSources = false, $width = 80)
     {
         $hasOutput = false;
+        $fingerprints = [];
 
         foreach ($report['messages'] as $line => $lineErrors) {
-            $file = new SplFileObject($phpcsFile->getFilename());
-            foreach ($lineErrors as $column => $colErrors) {
+            $lineContent = $this->getContentOfLine($phpcsFile->getFilename(), $line);
+
+            foreach ($lineErrors as $colErrors) {
                 foreach ($colErrors as $error) {
+                    $fingerprint = md5($report['filename'] . $lineContent . $error['source']);
+                    if (isset($fingerprints[$fingerprint])) {
+                        ++$fingerprints[$fingerprint];
+                    } else {
+                        $fingerprints[$fingerprint] = 1;
+                    }
+
                     $issue = [
                         'type' => 'issue',
                         'categories' => ['Style'],
                         'check_name' => $error['source'],
-                        'fingerprint' => md5(
-                            $report['filename']
-                            . $error["source"]
-                            . $this->getRelevantSource($file, $line - 1)
-                        ),
+                        'fingerprint' => $fingerprint . '-' . $fingerprints[$fingerprint],
                         'severity' => $error['type'] === 'ERROR' ? 'major' : 'minor',
                         'description' => str_replace(["\n", "\r", "\t"], ['\n', '\r', '\t'], $error['message']),
                         'location' => [
@@ -75,14 +82,21 @@ class Gitlab implements Report
         echo '[' . rtrim($cachedData, ',') . ']' . PHP_EOL;
     }
 
-    private function getRelevantSource(SplFileObject $file, int $line): string
+    /**
+     * @param string $filename
+     * @param int $line
+     * @return string
+     */
+    private function getContentOfLine($filename, $line)
     {
+        $file = new SplFileObject($filename);
+
         if (!$file->eof()) {
-            $file->seek($line);
+            $file->seek($line - 1);
             $contents = $file->current();
 
-            if (false !== $contents) {
-                return preg_replace('/\s+/', '', $contents);
+            if (is_string($contents)) {
+                return (string) preg_replace('/\s+/', '', $contents);
             }
         }
 
