@@ -1,12 +1,12 @@
 
-Gitlab Report for PHP_CodeSniffer
+GitLab Report for PHP_CodeSniffer
 ---------------------------------
 ![Main workflow](https://github.com/micheh/phpcs-gitlab/workflows/Main%20workflow/badge.svg)
 [![codecov](https://codecov.io/gh/micheh/phpcs-gitlab/branch/master/graph/badge.svg)](https://codecov.io/gh/micheh/phpcs-gitlab)
 
 
-This library adds a custom report to [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) (phpcs) to generate a codequality artifact, which can be used by Gitlab CI/CD.
-The custom report will be generated in the Code Climate format and allows Gitlab CI/CD to display the violations in the Code Quality report.
+This library adds a custom report to [PHP_CodeSniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer/) (phpcs) to generate a codequality artifact that can be used by GitLab CI/CD.
+The custom report is generated in Code Climate format and allows GitLab CI/CD to display the violations in the Code Quality report.
 
 ## Installation
 
@@ -16,7 +16,7 @@ Install this library using [Composer](https://getcomposer.org):
 composer require --dev micheh/phpcs-gitlab
 ```
 
-Then adjust your `.gitlab-ci.yml` to run PHP_CodeSniffer with the custom reporter and to gather the codequality artifacts:
+Then adjust your `.gitlab-ci.yml` to run PHP_CodeSniffer with the custom reporter and to collect the codequality artifacts:
 
 ```yaml
 phpcs:
@@ -26,19 +26,25 @@ phpcs:
       codequality: phpcs-quality-report.json
 ```
 
-The example above uses two reports, one to display in the build log (full) and one to generate the codequality artifact file in the Code Climate format.
+The example above uses two reports, one to display in the build log (full) and one to generate the codequality artifact file in Code Climate format.
 
-> **Note:** Gitlab currently does not support multiple codequality artifacts. 
-> You will not be able to display the violations of multiple tools (e.g. PHP Code Sniffer & PHPStan) in the Code Quality report.
+> **Note:** GitLab did not support multiple codequality artifacts before version 15.7. 
+> If you are using an earlier version of GitLab, you will not be able to see the violations from multiple tools (e.g. PHP Code Sniffer & PHPStan) in the Code Quality report.
 
-Inside the codequality artifact, Gitlab expects relative paths to the files with violations. 
-To generate relative paths with PHP Code Sniffer, set the `basepath` argument in your `phpcs.xml.dist` configuration file with `<arg name="basepath" value="."/>` or run phpcs with `--basepath=.` (adjust the base path as necessary).
+Inside the codequality artifact, GitLab expects relative paths to the files with violations. 
+To generate relative paths with PHP Code Sniffer, set the `basepath` argument in your `phpcs.xml.dist` configuration file with `<arg name="basepath" value="."/>` or run phpcs with `--basepath=.` (adjust the base path as needed).
 
+It is also possible to specify the reports to be used in the `phpcs.xml.dist` file:
+
+```xml
+<arg name="report" value="full"/>
+<arg name="report-\Micheh\PhpCodeSniffer\Report\Gitlab" value="phpcs-quality-report.json"/>
+```
 
 ## References
 
-- [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)
-- [Gitlab CI/CD Code Quality](https://docs.gitlab.com/ee/user/project/merge_requests/code_quality.html)
+- [PHP_CodeSniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer/)
+- [GitLab CI/CD Code Quality](https://docs.gitlab.com/ee/ci/testing/code_quality.html)
 - [Code Climate Specification](https://github.com/codeclimate/platform/blob/master/spec/analyzers/SPEC.md#data-types)
 
 
