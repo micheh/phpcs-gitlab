@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['7.2', '7.3', '7.4']
+        php-versions: ['7.4']
         dependencies:
           - lowest
           - highest
@@ -15,15 +15,15 @@ jobs:
     name: phpunit (${{ matrix.php-versions }}-${{ matrix.dependencies }})
 
     steps:
-      - uses: actions/checkout@v2.3.4
+      - uses: actions/checkout@v4.2.2
 
-      - uses: shivammathur/setup-php@2.15.0
+      - uses: shivammathur/setup-php@2.31.1
         with:
           php-version: ${{ matrix.php-versions }}
           coverage: none
         if: matrix.php-versions != '7.4' || matrix.dependencies != 'highest'
 
-      - uses: shivammathur/setup-php@2.15.0
+      - uses: shivammathur/setup-php@2.31.1
         with:
           php-version: ${{ matrix.php-versions }}
           coverage: pcov
@@ -56,8 +56,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2.3.4
-      - uses: shivammathur/setup-php@2.15.0
+      - uses: actions/checkout@v4.2.2
+      - uses: shivammathur/setup-php@2.31.1
         with:
           php-version: 7.4
           coverage: none
@@ -69,12 +69,12 @@ jobs:
       - name: Run PHP Codesniffer
         run: vendor/bin/phpcs --report=checkstyle -q | cs2pr --graceful-warnings
 
-  psalm:
+  phpstan:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2.3.4
-      - uses: shivammathur/setup-php@2.15.0
+      - uses: actions/checkout@v4.2.2
+      - uses: shivammathur/setup-php@2.31.1
         with:
           php-version: 7.4
           coverage: none
@@ -82,5 +82,5 @@ jobs:
       - name: Install dependencies
         run: composer install
         
-      - name: Run Psalm
-        run: vendor/bin/psalm --output-format=github
+      - name: Run PHPStan
+        run: vendor/bin/phpstan

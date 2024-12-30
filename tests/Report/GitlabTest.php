@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright (c) 2020, Michel Hunziker <info@michelhunziker.com>
+ * @copyright Copyright (c) 2025, Michel Hunziker <info@michelhunziker.com>
  * @license http://www.opensource.org/licenses/BSD-3-Clause The BSD-3-Clause License
  */
 
@@ -47,6 +47,9 @@ class GitlabTest extends TestCase
         $this->report->generate('', 5, 0, 0, 0);
     }
 
+    /**
+     * @return array<string, array<class-string<ReportFixture>>>
+     */
     public function violations(): array
     {
         return [
@@ -56,6 +59,7 @@ class GitlabTest extends TestCase
     }
 
     /**
+     * @param class-string<ReportFixture> $class
      * @covers \Micheh\PhpCodeSniffer\Report\Gitlab::generateFileReport
      * @dataProvider violations
      */

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright (c) 2020, Michel Hunziker <info@michelhunziker.com>
+ * @copyright Copyright (c) 2025, Michel Hunziker <info@michelhunziker.com>
  * @license http://www.opensource.org/licenses/BSD-3-Clause The BSD-3-Clause License
  */
 
@@ -21,7 +21,7 @@ use const PHP_EOL;
 class Gitlab implements Report
 {
     /**
-     * @psalm-suppress ImplementedParamTypeMismatch PHP_CodeSniffer has a wrong docblock
+     * @param array{filename: string, errors: int, warnings: int, fixable: int, messages: array<mixed>} $report
      */
     public function generateFileReport($report, File $phpcsFile, $showSources = false, $width = 80)
     {
