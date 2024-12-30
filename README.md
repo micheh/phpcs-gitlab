@@ -41,6 +41,13 @@ It is also possible to specify the reports to be used in the `phpcs.xml.dist` fi
 <arg name="report-\Micheh\PhpCodeSniffer\Report\Gitlab" value="phpcs-quality-report.json"/>
 ```
 
+## Upgrade from version 1 to 2
+
+The usage of this package remains the same. 
+However, the calculation of the fingerprint has been updated and is now based on the content instead of the line number. 
+This has the advantage that lines with violations can move up or down and GitLab will not report them as new violations.
+When upgrading to version 2, it is likely that all violations will show up as changed once, since all fingerprints are new.
+
 ## References
 
 - [PHP_CodeSniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer/)
