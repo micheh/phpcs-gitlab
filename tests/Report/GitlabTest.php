@@ -70,7 +70,7 @@ class GitlabTest extends TestCase
     /**
      * @return array<string, array<string>>
      */
-    public function violations(): array
+    public static function violations(): array
     {
         return [
             'single' => ['Single'],
