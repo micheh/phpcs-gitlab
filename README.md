@@ -1,8 +1,8 @@
 
 GitLab Report for PHP_CodeSniffer
 ---------------------------------
-![Main workflow](https://github.com/micheh/phpcs-gitlab/workflows/Main%20workflow/badge.svg)
-[![codecov](https://codecov.io/gh/micheh/phpcs-gitlab/branch/master/graph/badge.svg)](https://codecov.io/gh/micheh/phpcs-gitlab)
+![Main workflow](https://github.com/micheh/phpcs-gitlab/actions/workflows/main.yml/badge.svg)
+[![codecov](https://codecov.io/github/micheh/phpcs-gitlab/graph/badge.svg?token=02FSF3TT0T)](https://codecov.io/github/micheh/phpcs-gitlab)
 
 
 This library adds a custom report to [PHP_CodeSniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer/) (phpcs) to generate a codequality artifact that can be used by GitLab CI/CD.
