@@ -13,6 +13,7 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Reports\Report;
 use SplFileObject;
 
+use function count;
 use function is_string;
 use function md5;
 use function preg_replace;
@@ -29,25 +30,20 @@ class Gitlab implements Report
     public function generateFileReport($report, File $phpcsFile, $showSources = false, $width = 80)
     {
         $hasOutput = false;
-        $fingerprints = [];
+        $violations = [];
 
         foreach ($report['messages'] as $line => $lineErrors) {
             $lineContent = $this->getContentOfLine($phpcsFile->getFilename(), $line);
 
-            foreach ($lineErrors as $colErrors) {
+            foreach ($lineErrors as $col => $colErrors) {
                 foreach ($colErrors as $error) {
                     $fingerprint = md5($report['filename'] . $lineContent . $error['source']);
-                    if (isset($fingerprints[$fingerprint])) {
-                        ++$fingerprints[$fingerprint];
-                    } else {
-                        $fingerprints[$fingerprint] = 1;
-                    }
 
-                    $issue = [
+                    $violations[$fingerprint][$line . $col] = [
                         'type' => 'issue',
                         'categories' => ['Style'],
                         'check_name' => $error['source'],
-                        'fingerprint' => $fingerprint . '-' . $fingerprints[$fingerprint],
+                        'fingerprint' => $fingerprint,
                         'severity' => $error['type'] === 'ERROR' ? 'major' : 'minor',
                         'description' => str_replace(["\n", "\r", "\t"], ['\n', '\r', '\t'], $error['message']),
                         'location' => [
@@ -58,10 +54,19 @@ class Gitlab implements Report
                             ]
                         ],
                     ];
-
-                    echo json_encode($issue, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . ',';
-                    $hasOutput = true;
                 }
+            }
+        }
+
+        foreach ($violations as $fingerprints) {
+            $hasMultiple = count($fingerprints) > 1;
+            foreach ($fingerprints as $lineColumn => $issue) {
+                if ($hasMultiple) {
+                    $issue['fingerprint'] = md5($issue['fingerprint'] . $lineColumn);
+                }
+
+                echo json_encode($issue, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . ',';
+                $hasOutput = true;
             }
         }
 

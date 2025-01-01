@@ -76,6 +76,7 @@ class GitlabTest extends TestCase
             'single' => ['Single'],
             'mixed' => ['Mixed'],
             'multiple' => ['Multiple'],
+            'same-line' => ['SameLine'],
         ];
     }
 
