@@ -3,8 +3,7 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="vendor/squizlabs/php_codesniffer/autoload.php"
-         colors="true"
-         forceCoversAnnotation="true">
+         colors="true">
 
   <php>
     <const name="PHP_CODESNIFFER_IN_TESTS" value="true"/>

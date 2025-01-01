@@ -49,18 +49,12 @@ class GitlabTest extends TestCase
         $this->report = new Gitlab();
     }
 
-    /**
-     * @covers \Micheh\PhpCodeSniffer\Report\Gitlab::generate
-     */
     public function testGenerate(): void
     {
         $this->expectOutputString("[{\"phpunit\":\"test\"}]\n");
         $this->report->generate('{"phpunit":"test"},', 5, 1, 2, 1);
     }
 
-    /**
-     * @covers \Micheh\PhpCodeSniffer\Report\Gitlab::generate
-     */
     public function testGenerateWithEmpty(): void
     {
         $this->expectOutputString("[]\n");
@@ -81,7 +75,6 @@ class GitlabTest extends TestCase
     }
 
     /**
-     * @covers \Micheh\PhpCodeSniffer\Report\Gitlab::generateFileReport
      * @dataProvider violations
      */
     public function testGenerateFileReport(string $fileName): void
