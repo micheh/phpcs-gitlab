@@ -17,13 +17,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4.2.2
 
-      - uses: shivammathur/setup-php@2.31.1
+      - uses: shivammathur/setup-php@2.32.0
         with:
           php-version: ${{ matrix.php-versions }}
           coverage: none
         if: matrix.php-versions != '8.4' || matrix.dependencies != 'highest'
 
-      - uses: shivammathur/setup-php@2.31.1
+      - uses: shivammathur/setup-php@2.32.0
         with:
           php-version: ${{ matrix.php-versions }}
           coverage: pcov
@@ -59,7 +59,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4.2.2
-      - uses: shivammathur/setup-php@2.31.1
+      - uses: shivammathur/setup-php@2.32.0
         with:
           php-version: 7.4
           coverage: none
@@ -76,7 +76,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4.2.2
-      - uses: shivammathur/setup-php@2.31.1
+      - uses: shivammathur/setup-php@2.32.0
         with:
           php-version: 7.4
           coverage: none
